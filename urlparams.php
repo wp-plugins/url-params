@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: URL Params
-Plugin URI: http://jeremyshapiro.com/blog/wordpress-plugins/urlparams/
+Plugin URI: http://asandia.com/wordpress-plugins/urlparams/
 Description: Short Code to grab any URL Paramater
-Version: 0.3
-Author: Jeremy Shapiro
-Author URI: http://www.jeremyshapiro.com/   
+Version: 0.4
+Author: Jeremy B. Shapiro
+Author URI: http://www.asandia.com/
 */
 
 /*
@@ -20,7 +20,8 @@ add_shortcode("urlparam", "urlparam");
 function urlparam($atts) {
   $atts = shortcode_atts(array(
         'param'           => '',
-        'default'        => '' 
+        'default'        => '',
+	'dateformat'	=> '' 
         ), $atts);
 
   $params = preg_split('/\,\s*/',$atts['param']);
@@ -29,7 +30,12 @@ function urlparam($atts) {
   {
      if($_REQUEST[$param])
      {
-         return $_REQUEST[$param];
+	if(($atts['dateformat'] != '') && strtotime($_REQUEST[$param]))
+	{
+		return date($atts['dateformat'], strtotime($_REQUEST[$param]));
+	} else {
+		return $_REQUEST[$param];
+	}
      }
   }
           
