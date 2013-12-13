@@ -2,10 +2,10 @@
 Contributors: jeremyshapiro
 Tags: url, query string, url parameters, urlparam, url params, url param, query, jeremy shapiro, infusion, infusionsoft, purl
 Requires at least: 2.0.2
-Tested up to: 4.3
-Stable tag: 0.4
+Tested up to: 3.8
+Stable tag: 1.5
 
-Short Code to grab any URL parameter from the Query String
+Short Code to grab any URL parameter from the Query String and display it or display conditional content.
 
 == Description ==
 
@@ -29,7 +29,14 @@ To install the plugin, download the zip file and upload via the plugin interface
 
 Use the shortcode urlparam with the optional parameter of "default". For example `[urlparam param="FirstName" /]` or `[urlparam param="FirstName" default="Friend"/]`.
 
+For conditional content use `[ifurlparam][ifurlparam]`. For example, `[ifurlparam param="FirstName"]Hey, I know you, [urlparam param="FirstName"]![/ifurlparam]` would greet known visitors, but display nothing to users without a FirstName in the query string.
+
+If you want to show content when a value does NOT exist, you can set `empty` in `[ifurlparam]`. For example `[ifurlparam param="FirstName" empty="1"]Welcome to the site, visitor![/ifurlparam]` would greet visitors without a FirstName in the query string, but display nothing for visitors with FirstName in the query string.
+
+If you want to show content only to visitors with a specific value in their query string, you can set `is` in `[ifurlparam]`. For example, `[ifurlparam param="FirstName" is="Bob"]Hi, Bob![/ifurlparam]`, would only greet visitors with the FirstName param set to Bob.
+
 == Changelog ==
 
-* 0.3: Released 6/25/2011. Added support for alternative paramters, i.e. param="FirstName, First, name"
+* 1.5: Released 12/13/2013. Added support for conditional content via `ifurlparam` shortcode
 * 0.4: Released 7/11/2011. Added support for date formatting via the `dateformat` option
+* 0.3: Released 6/25/2011. Added support for alternative paramters, i.e. param="FirstName, First, name"
