@@ -37,6 +37,7 @@ If you want to show content only to visitors with a specific value in their quer
 
 == Changelog ==
 
+* 1.5: Nudge. WordPress didn't pick up this latest trunk version on commit. Will remove this comment in the future.
 * 1.5: Released 12/13/2013. Added support for conditional content via `ifurlparam` shortcode
 * 0.4: Released 7/11/2011. Added support for date formatting via the `dateformat` option
 * 0.3: Released 6/25/2011. Added support for alternative paramters, i.e. param="FirstName, First, name"
