@@ -3,7 +3,7 @@ Contributors: jeremyshapiro
 Tags: url, query string, url parameters, urlparam, url params, url param, query, jeremy shapiro, infusion, infusionsoft, purl
 Requires at least: 2.0.2
 Tested up to: 3.9.1
-Stable tag: 1.6
+Stable tag: 1.7
 
 Short Code to grab any URL parameter from the Query String and display it or display conditional content.
 
@@ -37,12 +37,11 @@ If you want to show content only to visitors with a specific value in their quer
 
 == Security ==
 
-To help protect your site against [Reflected Cross Site Scripting](http://en.wikipedia.org/wiki/Cross-site_scripting), we sanitize output with [htmlspecialchars()](http://www.php.net/manual/en/function.htmlspecialchars.php) which prevents any HTML tags from being passed in and displayed. This would prevent someone from passing in javascript, for example, and having it execute on your site.
-
-If for some reason you need to display HTML that's passed in via a query paramater, you understand why it's a bad idea, and you want the risk, pass in `htmlencode=0` as part of the shortcode. This is highly unadvised.
+To help protect your site against [Reflected Cross Site Scripting](http://en.wikipedia.org/wiki/Cross-site_scripting), we sanitize output with [esc_html()](http://codex.wordpress.org/Function_Reference/esc_html) which prevents any HTML tags from being passed in and displayed. This would prevent someone from passing in javascript, for example, and having it execute on your site.
 
 == Changelog ==
 
+* 1.7: Released 7/2/2014. Changed escaping via htmlspecialchars() to esc_html() and removed option to allow not escaping HTML
 * 1.6: Released 7/1/2014. Security update to patch against Reflected Cross Site Scripting.
 * 1.5: Nudge. WordPress didn't pick up this latest trunk version on commit. Will remove this comment in the future.
 * 1.5: Released 12/13/2013. Added support for conditional content via `ifurlparam` shortcode
