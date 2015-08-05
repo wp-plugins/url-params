@@ -2,8 +2,8 @@
 Contributors: jeremyshapiro
 Tags: url, query string, url parameters, urlparam, url params, url param, query, jeremy shapiro, infusion, infusionsoft, purl
 Requires at least: 2.0.2
-Tested up to: 4.0
-Stable tag: 1.7
+Tested up to: 4.2.3
+Stable tag: 1.8
 
 Short Code to grab any URL parameter from the Query String and display it or display conditional content.
 
@@ -35,12 +35,17 @@ If you want to show content when a value does NOT exist, you can set `empty` in 
 
 If you want to show content only to visitors with a specific value in their query string, you can set `is` in `[ifurlparam]`. For example, `[ifurlparam param="FirstName" is="Bob"]Hi, Bob![/ifurlparam]`, would only greet visitors with the FirstName param set to Bob.
 
+If you want to have urlparam return back an HTML attribute, for example to use in pre-setting the value of input or hidden input fields, pass in the optional `attr` parameter. You might set a value attribute for an input field like so: `<input type="text" name="firstname" [urlparam attr="value" param='FirstName']>` or you might set a src attribute for an image tag like so: `<img [urlparam attr="src" param='imgurl']>`
+
 == Security ==
 
 To help protect your site against [Reflected Cross Site Scripting](http://en.wikipedia.org/wiki/Cross-site_scripting), we sanitize output with [esc_html()](http://codex.wordpress.org/Function_Reference/esc_html) which prevents any HTML tags from being passed in and displayed. This would prevent someone from passing in javascript, for example, and having it execute on your site.
 
+Starting in the [WordPress 4.2.3 security auto-update](https://make.wordpress.org/core/2015/07/23/changes-to-the-shortcode-api/), you can no longer include shortcodes in HTML attributes. Previous to this WordPress update, you could set a field value like this: `<input type="text" name="firstname" value="[urlparam param='FirstName']">`. Now you have to set it like this: `<input type="text" name="firstname" [urlparam attr="value" param='FirstName']>`. If you are still using this shortcode the old way, unfortunately, WordPress simply won't process the shortcode and will return back the full shortcode text unprocessed.
+
 == Changelog ==
 
+* 1.8: Released 8/5/2015. Allowed for the `attr` attribute to be passed. This helps fix the backwards incompatible shortcode processing bugs introduced by WordPress 4.2.3
 * 1.7: Released 7/2/2014. Changed escaping via htmlspecialchars() to esc_html() and removed option to allow not escaping HTML
 * 1.6: Released 7/1/2014. Security update to patch against Reflected Cross Site Scripting.
 * 1.5: Nudge. WordPress didn't pick up this latest trunk version on commit. Will remove this comment in the future.

@@ -3,14 +3,14 @@
 Plugin Name: URL Params
 Plugin URI: http://asandia.com/wordpress-plugins/urlparams/
 Description: Short Code to grab any URL Parameter
-Version: 1.7
+Version: 1.8
 Author: Jeremy B. Shapiro
 Author URI: http://www.asandia.com/
 */
 
 /*
 URL Params (Wordpress Plugin)
-Copyright (C) 2011-2014 Jeremy Shapiro
+Copyright (C) 2011-2015 Jeremy Shapiro
 
 */
 
@@ -20,27 +20,38 @@ add_shortcode("ifurlparam", "ifurlparam");
 
 function urlparam($atts) {
     $atts = shortcode_atts(array(
-        'param'           => '',
+        'param'          => '',
         'default'        => '',
-        'dateformat'	=> ''
+        'dateformat'	 => '',
+        'attr'           => ''
     ), $atts);
 
     $params = preg_split('/\,\s*/',$atts['param']);
 
+    $return = false;
+
     foreach($params as $param)
     {
-        if($rawtext = $_REQUEST[$param])
+        if(!$return and ($rawtext = $_REQUEST[$param]))
         {
             if(($atts['dateformat'] != '') && strtotime($rawtext))
             {
-                return date($atts['dateformat'], strtotime($rawtext));
+                $return = date($atts['dateformat'], strtotime($rawtext));
             } else {
-                return esc_html($rawtext);
+                $return = esc_html($rawtext);
             }
         }
     }
 
-    return $atts['default'];
+    if(!$return) {
+        $return = $atts['default'];
+    }
+
+    if($atts['attr']) {
+        return ' '.$atts['attr'].'="'.$return.'" ';
+    } else {
+        return $return;
+    }
 }
 
 /*
