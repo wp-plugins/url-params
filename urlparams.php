@@ -3,7 +3,7 @@
 Plugin Name: URL Params
 Plugin URI: http://asandia.com/wordpress-plugins/urlparams/
 Description: Short Code to grab any URL Parameter
-Version: 1.8
+Version: 2.0
 Author: Jeremy B. Shapiro
 Author URI: http://www.asandia.com/
 */
@@ -18,13 +18,17 @@ Copyright (C) 2011-2015 Jeremy Shapiro
 add_shortcode("urlparam", "urlparam");
 add_shortcode("ifurlparam", "ifurlparam");
 
-function urlparam($atts) {
-    $atts = shortcode_atts(array(
+function urlparam($atts, $content) {
+    $defaults = array(
         'param'          => '',
         'default'        => '',
         'dateformat'	 => '',
-        'attr'           => ''
-    ), $atts);
+        'attr'           => '',
+        'htmltag'        => false,
+    );
+
+    # we used to use shortcode_atts(), but that would nuke an extra attributes that we don't know about but want. array_merge() keeps them all.
+    $atts = array_merge($defaults, $atts);
 
     $params = preg_split('/\,\s*/',$atts['param']);
 
@@ -48,10 +52,22 @@ function urlparam($atts) {
     }
 
     if($atts['attr']) {
-        return ' '.$atts['attr'].'="'.$return.'" ';
-    } else {
-        return $return;
+        $return = ' ' . $atts['attr'] . '="' . $return . '" ';
+
+        if($atts['htmltag']) {
+            $tagname = $atts['htmltag'];
+
+            foreach(array_keys($defaults) as $key) {
+                unset($atts[$key]);
+            }
+
+            $return = "<$tagname ".
+                implode(' ', array_map(function($key, $val) { return "$key=\"".$val."\""; }, array_keys($atts), $atts)).
+                $return.($content ? ">$content</$tagname>" : "/>");
+        }
     }
+
+    return $return;
 }
 
 /*
